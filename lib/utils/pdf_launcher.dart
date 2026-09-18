@@ -9,7 +9,7 @@ import 'package:share_plus/share_plus.dart';
 /// (lets the user view, download, print, or share it).
 /// Handles null, empty, and failed-download cases gracefully.
 Future<void> openPdf(String url, {String label = 'document'}) async {
-  if (url == null || url.trim().isEmpty) {
+  if (url.trim().isEmpty) {
     Get.snackbar(
       'Not Available',
       'No $label link found for this order.',
@@ -61,9 +61,15 @@ Future<void> openPdf(String url, {String label = 'document'}) async {
     Get.back(); // close loading dialog
 
     // Open native share sheet — lets user view/print/save/share the PDF
+    // sharePositionOrigin anchors the share popover. iPhone ignores it, but
+    // without it the sheet throws on any popover-based presentation.
+    final ctx = Get.context;
+    final size = ctx == null ? const Size(390, 844) : MediaQuery.of(ctx).size;
+
     await Share.shareXFiles(
       [XFile(file.path, mimeType: 'application/pdf')],
       text: label,
+      sharePositionOrigin: Rect.fromLTWH(0, 0, size.width, size.height / 2),
     );
   } catch (e) {
     if (Get.isDialogOpen ?? false) Get.back();

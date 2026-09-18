@@ -91,6 +91,22 @@ class ProfileScreen extends StatelessWidget {
                 style: OutlinedButton.styleFrom(side: const BorderSide(color: kDanger)),
               ),
             ),
+            getVerticalSpace(12),
+            SizedBox(
+              width: double.infinity,
+              child: TextButton.icon(
+                onPressed: () => _confirmDeleteAccount(context, auth),
+                icon: const Icon(Icons.delete_forever_outlined, size: 18, color: kDanger),
+                label: Text('Delete Account',
+                    style: GoogleFonts.jost(color: kDanger, fontWeight: FontWeight.w600)),
+              ),
+            ),
+            getVerticalSpace(4),
+            Text(
+              'Deleting your account permanently removes your profile, saved addresses, enquiries and support requests. This cannot be undone.',
+              textAlign: TextAlign.center,
+              style: GoogleFonts.jost(fontSize: getTextSize(11.5), color: kLightText),
+            ),
             getVerticalSpace(8),
           ],
         );
@@ -161,6 +177,32 @@ class ProfileScreen extends StatelessWidget {
               auth.logout();
             },
             child: Text('Logout', style: GoogleFonts.jost(color: kDanger, fontWeight: FontWeight.w600)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _confirmDeleteAccount(BuildContext context, AuthController auth) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text('Delete Account?', style: GoogleFonts.jost(fontWeight: FontWeight.w700)),
+        content: Text(
+          'This permanently deletes your ESD account and all data linked to it — '
+          'profile, saved addresses, enquiries and support requests.\n\n'
+          'This action cannot be undone.',
+          style: GoogleFonts.jost(),
+        ),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: Text('Cancel', style: GoogleFonts.jost())),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              auth.deleteAccount();
+            },
+            child: Text('Delete', style: GoogleFonts.jost(color: kDanger, fontWeight: FontWeight.w600)),
           ),
         ],
       ),

@@ -1,7 +1,7 @@
 name: esdcustomer
 description: Electronics Sales Delhi - Customer App
 publish_to: 'none'
-version: 1.0.2+2
+version: 1.0.4+4
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
@@ -17,6 +17,7 @@ dependencies:
 
   # Networking
   dio: ^5.4.0
+  http: ^1.2.0
 
   # UI / UX
   flutter_easyloading: ^3.0.5
@@ -31,12 +32,20 @@ dependencies:
   url_launcher: ^6.2.5
   image_picker: ^1.1.2
   file_picker: ^8.0.0+1
-  permission_handler: ^11.3.1
+#  permission_handler: ^11.3.1
   open_filex: ^4.4.0
   fluttertoast: ^8.2.4
   connectivity_plus: ^6.0.3
   share_plus: ^12.0.0
   path_provider: ^2.1.5
+
+  # Push notifications
+  firebase_core: ^4.15.0
+  firebase_messaging: ^16.7.0
+  # Needed to draw foreground notifications ourselves (FCM does not show a
+  # notification while the app is in the foreground) and to render the
+  # big-picture style for image notifications on Android.
+  flutter_local_notifications: ^19.4.2
 
 dev_dependencies:
   flutter_test:
